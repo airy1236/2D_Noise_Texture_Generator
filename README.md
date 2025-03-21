@@ -16,7 +16,8 @@
 ### 构建
 
 - 本项目使用vscode编写，你也可以使用其他的构建方式，但是尽量不要改变项目中文件的结构。
-- python>=3.8
+- python >= 3.8
+- noise, PIL, numpy, scipy, tkinter, abc, math
 
 ### 结构
 ```bash
