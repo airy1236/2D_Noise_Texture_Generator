@@ -1,0 +1,33 @@
+import numpy as np
+from noise import snoise2
+
+from ..noise_base import BaseNoise
+
+class SimplexNoise(BaseNoise):
+    @classmethod
+    def get_parameters(cls):
+        return [
+            ('scale', 'Scale', 'float', 50.0),
+            ('octaves', 'Octaves', 'int', 6),
+            ('persistence', 'Persistence', 'float', 0.5),
+            ('lacunarity', 'Lacunarity', 'float', 2.0)
+        ]
+
+    def generate(self, width, height, seed, **kwargs):
+        np.random.seed(seed)
+        noise = np.zeros((height, width))
+        x_offset = seed * 1000
+        y_offset = seed * 2000
+        
+        for i in range(height):
+            for j in range(width):
+                x = j/width + x_offset
+                y = i/height + y_offset
+                noise[i][j] = snoise2(
+                    x * kwargs['scale'],
+                    y * kwargs['scale'],
+                    octaves=kwargs['octaves'],
+                    persistence=kwargs['persistence'],
+                    lacunarity=kwargs['lacunarity']
+                )
+        return self.normalize(noise)
